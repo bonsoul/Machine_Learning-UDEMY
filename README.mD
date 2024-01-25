@@ -1,7 +1,7 @@
 # Regression
 This notebook outlines the process of training and evaluating a regression model, focusing on linking data features to predicted variables, and adjusting parameters for optimization.
 
-##Data Exploration
+## Data Exploration
 
 The purpose is to comprehend the links between qualities, specifically any association between features and predicted labels. 
 This includes detecting and fixing data problems (e.g. missing values, mistakes, or outliers) and creating new feature columns by modifying or merging existing ones.
