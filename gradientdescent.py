@@ -76,11 +76,52 @@ def mse_loss(y_true, y_predict):
 model = LinearModel()
 optimizer = tf.keras.optimizers.SGD(learning_rate=0.1)
 
-for epoch in range(100):
-    with tf.GradientTape() as tape:
-        y_pred = model(X_tensor)
-        loss = mse_loss(y_tensor, y_pred)
-    gradients = tape.gradient(loss, [model.weights, model.bias])
-    optimizer.apply_gradients(zip(gradients, [model.weights, model.bias]))
+#for epoch in range(100):
+    #with tf.GradientTape() as tape:
+        #y_pred = model(X_tensor)
+        #loss = mse_loss(y_tensor, y_pred)
+    #gradients = tape.gradient(loss, [model.weights, model.bias])
+    #optimizer.apply_gradients(zip(gradients, [model.weights, model.bias]))
+    #if epoch % 10 == 0:
+        #print(f"Epoch {epoch}, Loss: {loss.numpy():.4f}")
+
+
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+
+X_torch = torch.tensor(X, dtype=torch.float32)
+y_torch = torch.tensor(y, dtype=torch.float32)
+
+
+#define model
+
+class LineaModelTorch(nn.Module):
+    def __init__(self):
+        super(LineaModelTorch, self).__init__()
+        self.linear = nn.Linear(1, 1)
+        
+    def forward(self, x):
+        return self.linear(x)
+    
+model_torch = LineaModelTorch()
+
+
+#define los function
+
+
+criterion = nn.MSELoss()
+optimizer = optim.Adam(model_torch.parameters(), lr=0.1)
+
+
+#train mdel
+for epoch in range(0,100):
+    optimizer.zero_grad()
+    outputs = model_torch(X_torch)
+    loss = criterion(outputs, y_torch)
+    loss.backward()
+    optimizer.step()
     if epoch % 10 == 0:
-        print(f"Epoch {epoch}, Loss: {loss.numpy():.4f}")
+        print(f"Epoch {epoch}, loss: {loss.item():.4f}")
